@@ -96,7 +96,7 @@ const Compress = ({
                 />
               </div>
               <div className="font-semibold text-custom-gray21">
-                <p>{`Ukuran Awal : ${selected.size} bytes`}</p>
+                <p>{`Ukuran Awal : ${response.original_size} bytes`}</p>
                 <p>{`Ukuran hasil : ${response.compressed_size} bytes`}</p>
               </div>
             </div>
