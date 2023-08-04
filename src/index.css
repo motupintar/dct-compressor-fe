@@ -9,5 +9,5 @@
 }
 
 .subtitle span {
-  @apply font-semibold text-blue-400;
+  @apply text-custom-yellowE0;
 }

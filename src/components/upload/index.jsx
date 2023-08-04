@@ -2,14 +2,16 @@ import React from 'react';
 
 const Upload = ({ getInputProps, getRootProps, isDragActive, open }) => {
   return (
-    <div {...getRootProps()} className="min-h-[90vh] w-full">
+    <div {...getRootProps()} className="h-screen w-full">
       <input {...getInputProps()} className="border-none outline-none" />
 
-      <div className="text-center py-20">
-        <p className="font-bold text-5xl text-gray-700">Kompresi Citra Digital</p>
-        <p className="text-gray-600 text-xl mt-2 subtitle">
-          Kompres <span>JPG</span>, <span>JPEG</span>, <span>PNG</span> Dan Perkecil Ukurannya.
-          <br /> Kompress Pada Gambar Menggunakan Metode <span>D</span>escrete <span>C</span>onsine <span>T</span>ransfom
+      <div className="text-center pt-20 pb-10">
+        <p className="font-bold text-6xl text-custom-gray39">Kompresi Citra Digital</p>
+        <p className="text-[20px] font-medium text-custom-gray21 mt-5 subtitle">
+          Kompres File <span>JPG</span>, <span>JPEG</span>, <span>PNG</span> anda
+          <br /> dengan pilihan level kualitas kompresi dan perkecil ukuran pada gambar
+          <br />
+          menggunakan Metode <span>D</span>escrete <span>C</span>onsine <span>T</span>ransfom
         </p>
       </div>
 
@@ -17,12 +19,12 @@ const Upload = ({ getInputProps, getRootProps, isDragActive, open }) => {
         <button
           type="button"
           onClick={open}
-          className="border-none outline-none px-12 py-5 cursor-pointer text-white bg-blue-500 hover:bg-blue-600 rounded-lg text-2xl"
+          className="border-none outline-none px-12 py-5 cursor-pointer text-custom-grayC4 bg-custom-gray39 rounded-lg text-3xl font-medium hover:bg-custom-btnHover"
         >
           Pilih Gambar
         </button>
 
-        <p className="text-sm text-gray-600">Atau Drop Gambar Disini</p>
+        <p className="text-sm text-custom-gray6C">Atau Drop Gambar Disini</p>
       </div>
 
       {isDragActive && (

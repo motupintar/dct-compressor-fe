@@ -5,7 +5,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 export function useApp() {
   const dropdownMenu = ['Rendah', 'Sedang', 'Tinggi'];
   const dropdownRef = useRef();
-  const botRef = useRef();
 
   const [loading, setLoading] = useState(false);
   const [quality, setQuality] = useState(undefined);
@@ -13,11 +12,18 @@ export function useApp() {
   const [response, setResponse] = useState(undefined);
   const [uploadedImages, setUploadedImages] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isCompressPage, setIsCompressPage] = useState(false);
 
   function clearAll() {
+    setUploadedImages([]);
     setSelected(undefined);
     setResponse(undefined);
-    setUploadedImages([]);
+    setIsCompressPage(false);
+  }
+
+  function handleSelect(it) {
+    setSelected(it);
+    setResponse(undefined);
   }
 
   function getQuality() {
@@ -38,20 +44,16 @@ export function useApp() {
     formData.append('quality', getQuality());
 
     try {
-      // Make the POST request using Axios
       const response = await axios.post('https://dct-compressor-be.vercel.app/compress', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
-      // Handle the response here, if needed
       setResponse(response.data[0]);
       setLoading(false);
-      botRef.current.scrollIntoView({ behavior: 'smooth' });
     } catch (error) {
       setLoading(false);
-      // Handle any errors that occurred during the request
       console.error('Error:', error);
     }
   }
@@ -59,10 +61,8 @@ export function useApp() {
   function getFileNameWithoutExtension(fileName) {
     const lastIndex = fileName.lastIndexOf('.');
     if (lastIndex === -1) {
-      // File has no extension
       return fileName;
     } else {
-      // Extract the file name without extension
       return fileName.slice(0, lastIndex);
     }
   }
@@ -100,13 +100,15 @@ export function useApp() {
   const onDrop = useCallback((acceptedFiles) => {
     const images = filterImg(acceptedFiles);
 
-    // Append the newly uploaded images to the existing images in the state
     setUploadedImages((prevUploadedImages) => [...prevUploadedImages, ...images]);
+    setIsCompressPage(true);
   }, []);
 
   const removeImage = (index) => {
-    // Remove the image from the state based on its index
     setUploadedImages((prevUploadedImages) => prevUploadedImages.filter((_, i) => i !== index));
+    if (selected === uploadedImages[index]) {
+      setSelected(undefined);
+    }
   };
 
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
@@ -125,16 +127,12 @@ export function useApp() {
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
-      // Check if the click is outside the dropdown element
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
     };
-
-    // Add event listener for clicks outside the dropdown
     document.addEventListener('mousedown', handleOutsideClick);
 
-    // Clean up the event listener on unmount
     return () => {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
@@ -142,7 +140,6 @@ export function useApp() {
 
   return {
     datas: {
-      botRef,
       loading,
       quality,
       selected,
@@ -154,14 +151,15 @@ export function useApp() {
       getInputProps,
       isDropdownOpen,
       uploadedImages,
+      isCompressPage,
     },
     methods: {
       open,
       compres,
       clearAll,
       selectMenu,
-      setSelected,
       removeImage,
+      handleSelect,
       downloadClick,
       toggleDropdown,
     },

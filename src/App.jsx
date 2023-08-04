@@ -1,12 +1,13 @@
 import React from 'react';
+import Lottie from 'lottie-react';
 
 import { useApp } from './hook';
+import loadingData from './loading.json';
 import { Compress, Navbar, Upload } from './components';
 
 const App = () => {
   const {
     datas: {
-      botRef,
       quality,
       loading,
       selected,
@@ -18,40 +19,45 @@ const App = () => {
       getInputProps,
       isDropdownOpen,
       uploadedImages,
+      isCompressPage,
     },
-    methods: { open, compres, clearAll, selectMenu, setSelected, removeImage, downloadClick, toggleDropdown },
+    methods: { open, compres, clearAll, selectMenu, handleSelect, removeImage, downloadClick, toggleDropdown },
   } = useApp();
   return (
-    <>
-      <Navbar />
-      {uploadedImages.length < 1 ? (
-        <Upload getInputProps={getInputProps} getRootProps={getRootProps} isDragActive={isDragActive} open={open} />
-      ) : (
-        <Compress
-          open={open}
-          quality={quality}
-          compres={compres}
-          response={response}
-          selected={selected}
-          clearAll={clearAll}
-          selectMenu={selectMenu}
-          removeImage={removeImage}
-          setSelected={setSelected}
-          dropdownRef={dropdownRef}
-          dropdownMenu={dropdownMenu}
-          downloadClick={downloadClick}
-          uploadedImages={uploadedImages}
-          isDropdownOpen={isDropdownOpen}
-          toggleDropdown={toggleDropdown}
-        />
-      )}
+    <div className="relative w-full h-screen font-inter overflow-hidden">
+      <Navbar isCompressPage={isCompressPage} />
+      <div className="flex-1 mt-[10vh]">
+        {!isCompressPage ? (
+          <Upload getInputProps={getInputProps} getRootProps={getRootProps} isDragActive={isDragActive} open={open} />
+        ) : (
+          <Compress
+            open={open}
+            quality={quality}
+            compres={compres}
+            response={response}
+            selected={selected}
+            clearAll={clearAll}
+            selectMenu={selectMenu}
+            removeImage={removeImage}
+            dropdownRef={dropdownRef}
+            handleSelect={handleSelect}
+            dropdownMenu={dropdownMenu}
+            downloadClick={downloadClick}
+            uploadedImages={uploadedImages}
+            isDropdownOpen={isDropdownOpen}
+            toggleDropdown={toggleDropdown}
+          />
+        )}
+      </div>
       {loading && (
-        <div className="fixed w-full top-0 h-screen bg-black bg-opacity-40 flex justify-center items-center">
-          <p className="text-4xl font-semibold text-white">Mengompres...</p>
+        <div className="fixed w-full top-0 h-screen bg-black bg-opacity-40 flex justify-center items-center z-[3]">
+          <Lottie animationData={loadingData} loop />
         </div>
       )}
-      <div ref={botRef} className="h-10 w-full" />
-    </>
+      <div className="absolute left-10 bottom-10">
+        <p className="text-sm text-custom-gray6C">© Tri Boy Girsang • 2023</p>
+      </div>
+    </div>
   );
 };
 
