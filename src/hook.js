@@ -108,6 +108,7 @@ export function useApp() {
     setUploadedImages((prevUploadedImages) => prevUploadedImages.filter((_, i) => i !== index));
     if (selected === uploadedImages[index]) {
       setSelected(undefined);
+      setResponse(undefined);
     }
   };
 
