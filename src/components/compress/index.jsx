@@ -13,14 +13,16 @@ const Compress = ({
   dropdownRef,
   handleSelect,
   dropdownMenu,
+  getRootProps,
   downloadClick,
+  getInputProps,
   uploadedImages,
   toggleDropdown,
   isDropdownOpen,
 }) => {
   return (
-    <div className="w-full h-[90vh] flex">
-      <div className="w-2/3 py-6 px-10 h-[90vh] overflow-y-scroll">
+    <div className="w-full h-auto lg:h-[90vh] flex flex-col lg:flex-row">
+      <div className="w-full lg:w-2/3 py-6 px-10 h-auto lg:h-[90vh] lg:overflow-y-scroll">
         <div className="flex gap-4">
           <div
             id="back_btn"
@@ -31,17 +33,20 @@ const Compress = ({
               <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
             </svg>
           </div>
-          <div
-            id="add_btn"
-            onClick={open}
-            className="w-fit p-2 text-custom-grayC4 cursor-pointer bg-custom-gray21 hover:bg-custom-btnHover rounded-full"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
+          <div {...getRootProps()}>
+            <input {...getInputProps()} className="border-none outline-none" />
+            <div
+              id="add_btn"
+              onClick={open}
+              className="w-fit p-2 text-custom-grayC4 cursor-pointer bg-custom-gray21 hover:bg-custom-btnHover rounded-full"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+            </div>
           </div>
         </div>
-        <div className="w-full grid grid-cols-3 gap-4 mt-10">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
           {uploadedImages &&
             uploadedImages.map((file, idx) => (
               <div
@@ -75,7 +80,11 @@ const Compress = ({
         </div>
       </div>
 
-      <div className="w-1/3 h-full bg-white flex flex-col items-center gap-6 justify-end p-6 relative">
+      <div
+        className={`w-full lg:w-1/3 mb-20 ${
+          selected ? 'h-fit lg:h-full' : 'h-[50vh] lg:h-full'
+        } bg-white flex flex-col items-center gap-6 justify-end p-6 relative`}
+      >
         <div className="flex-1 w-full flex flex-col gap-6">
           {selected ? (
             <div className="w-full h-[25vh] bg-custom-grayEC rounded-lg p-4 flex justify-center">
@@ -111,11 +120,11 @@ const Compress = ({
             Download
           </button>
         ) : selected ? (
-          <div className="w-full flex items-center gap-4">
+          <div className="w-full flex flex-col sm:flex-row items-center gap-4">
             <div ref={dropdownRef} className="relative w-full">
               <button
                 onClick={toggleDropdown}
-                className="bg-custom-gray21 hover:bg-custom-btnHover text-custom-grayC4 font-semibold p-4 rounded-md w-full flex items-center justify-between"
+                className="bg-custom-gray21 hover:bg-custom-btnHover text-custom-grayC4 font-semibold p-4 rounded-md w-full flex items-center justify-between truncate"
               >
                 {quality ? quality : 'Kualitas Kompres'}
                 <svg

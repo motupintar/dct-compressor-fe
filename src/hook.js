@@ -1,9 +1,11 @@
 import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { toastError, toastSuccess } from './components';
 
 export function useApp() {
   const dropdownMenu = ['Rendah', 'Sedang', 'Tinggi'];
+  const bottomRef = useRef();
   const dropdownRef = useRef();
 
   const [loading, setLoading] = useState(false);
@@ -52,9 +54,13 @@ export function useApp() {
 
       setResponse(response.data[0]);
       setLoading(false);
+      toastSuccess({ title: 'Success', message: 'Berhasil mengompres gambar' });
     } catch (error) {
       setLoading(false);
-      console.error('Error:', error);
+      toastError({
+        title: 'Sorry',
+        message: 'An error occoured on the server when handling your request',
+      });
     }
   }
 
@@ -127,6 +133,13 @@ export function useApp() {
   }
 
   useEffect(() => {
+    const isSmall = window.innerWidth < 1025;
+    if ((response || selectMenu) && isSmall) {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [response, selected]);
+
+  useEffect(() => {
     const handleOutsideClick = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
@@ -145,6 +158,7 @@ export function useApp() {
       quality,
       selected,
       response,
+      bottomRef,
       dropdownRef,
       getRootProps,
       isDragActive,

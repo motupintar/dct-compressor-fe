@@ -2,12 +2,12 @@ import React from 'react';
 
 const Upload = ({ getInputProps, getRootProps, isDragActive, open }) => {
   return (
-    <div {...getRootProps()} className="h-screen w-full">
+    <div {...getRootProps()} className="h-auto lg:h-screen w-full">
       <input {...getInputProps()} className="border-none outline-none" />
 
-      <div className="text-center pt-20 pb-10">
-        <p className="font-bold text-6xl text-custom-gray39">Kompresi Citra Digital</p>
-        <p className="text-[20px] font-medium text-custom-gray21 mt-5 subtitle">
+      <div className="text-center pt-20 pb-10 p-5">
+        <p className="font-bold text-3xl md:text-6xl text-custom-gray39">Kompresi Citra Digital</p>
+        <p className="text-sm md:text-[20px] font-medium text-custom-gray21 mt-5 subtitle">
           Kompres File <span>JPG</span>, <span>JPEG</span>, <span>PNG</span> anda
           <br /> dengan pilihan level kualitas kompresi dan perkecil ukuran pada gambar
           <br />
@@ -19,12 +19,12 @@ const Upload = ({ getInputProps, getRootProps, isDragActive, open }) => {
         <button
           type="button"
           onClick={open}
-          className="border-none outline-none px-12 py-5 cursor-pointer text-custom-grayC4 bg-custom-gray39 rounded-lg text-3xl font-medium hover:bg-custom-btnHover"
+          className="border-none outline-none px-6 md:px-12 py-3 md:py-5 cursor-pointer text-custom-grayC4 bg-custom-gray39 rounded-lg text-xl md:text-3xl font-medium hover:bg-custom-btnHover"
         >
           Pilih Gambar
         </button>
 
-        <p className="text-sm text-custom-gray6C">Atau Drop Gambar Disini</p>
+        <p className="text-xs md:text-sm text-custom-gray6C">Atau Drop Gambar Disini</p>
       </div>
 
       {isDragActive && (

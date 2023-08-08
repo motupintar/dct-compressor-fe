@@ -12,6 +12,7 @@ const App = () => {
       loading,
       selected,
       response,
+      bottomRef,
       dropdownRef,
       getRootProps,
       isDragActive,
@@ -24,9 +25,13 @@ const App = () => {
     methods: { open, compres, clearAll, selectMenu, handleSelect, removeImage, downloadClick, toggleDropdown },
   } = useApp();
   return (
-    <div className="relative w-full h-screen font-inter overflow-hidden">
+    <div
+      className={`relative w-full font-inter ${
+        isCompressPage ? 'min-h-screen lg:h-screen overflow-auto lg:overflow-hidden' : 'h-screen overflow-auto lg:overflow-hidden'
+      }`}
+    >
       <Navbar isCompressPage={isCompressPage} />
-      <div className="flex-1 mt-[10vh]">
+      <div className="pt-[10vh]">
         {!isCompressPage ? (
           <Upload getInputProps={getInputProps} getRootProps={getRootProps} isDragActive={isDragActive} open={open} />
         ) : (
@@ -40,8 +45,10 @@ const App = () => {
             selectMenu={selectMenu}
             removeImage={removeImage}
             dropdownRef={dropdownRef}
+            getRootProps={getRootProps}
             handleSelect={handleSelect}
             dropdownMenu={dropdownMenu}
+            getInputProps={getInputProps}
             downloadClick={downloadClick}
             uploadedImages={uploadedImages}
             isDropdownOpen={isDropdownOpen}
@@ -54,7 +61,7 @@ const App = () => {
           <Lottie animationData={loadingData} loop />
         </div>
       )}
-      <div className="absolute left-10 bottom-10">
+      <div ref={bottomRef} className="absolute left-10 bottom-10">
         <p className="text-sm text-custom-gray6C">© Tri Boy Girsang • 2023</p>
       </div>
     </div>
