@@ -13,16 +13,33 @@ const App = () => {
       selected,
       response,
       bottomRef,
+      allQuality,
+      allResponse,
       dropdownRef,
       getRootProps,
       isDragActive,
       dropdownMenu,
       getInputProps,
+      allDropdownRef,
       isDropdownOpen,
       uploadedImages,
       isCompressPage,
+      isAllDropdownOpen,
     },
-    methods: { open, compres, clearAll, selectMenu, handleSelect, removeImage, downloadClick, toggleDropdown },
+    methods: {
+      open,
+      compres,
+      clearAll,
+      selectMenu,
+      compresAll,
+      removeImage,
+      handleSelect,
+      downloadClick,
+      selectAllMenu,
+      toggleDropdown,
+      toggleAllDropdown,
+      downloadSingleClick,
+    },
   } = useApp();
   return (
     <div
@@ -42,17 +59,25 @@ const App = () => {
             response={response}
             selected={selected}
             clearAll={clearAll}
+            allQuality={allQuality}
+            compresAll={compresAll}
             selectMenu={selectMenu}
+            allResponse={allResponse}
             removeImage={removeImage}
             dropdownRef={dropdownRef}
             getRootProps={getRootProps}
             handleSelect={handleSelect}
             dropdownMenu={dropdownMenu}
+            selectAllMenu={selectAllMenu}
             getInputProps={getInputProps}
             downloadClick={downloadClick}
+            allDropdownRef={allDropdownRef}
             uploadedImages={uploadedImages}
             isDropdownOpen={isDropdownOpen}
             toggleDropdown={toggleDropdown}
+            isAllDropdownOpen={isAllDropdownOpen}
+            toggleAllDropdown={toggleAllDropdown}
+            downloadSingleClick={downloadSingleClick}
           />
         )}
       </div>
@@ -61,9 +86,11 @@ const App = () => {
           <Lottie animationData={loadingData} loop />
         </div>
       )}
-      <div ref={bottomRef} className="absolute left-10 bottom-10">
-        <p className="text-sm text-custom-gray6C">© Tri Boy Girsang • 2023</p>
-      </div>
+      {!isCompressPage && (
+        <div ref={bottomRef} className="absolute left-10 bottom-10">
+          <p className="text-sm text-custom-gray6C">© Tri Boy Girsang • 2023</p>
+        </div>
+      )}
     </div>
   );
 };
