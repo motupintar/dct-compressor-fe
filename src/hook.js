@@ -7,36 +7,43 @@ export function useApp() {
   const dropdownMenu = [25, 50, 75];
   const bottomRef = useRef();
   const dropdownRef = useRef();
-  const allDropdownRef = useRef();
 
+  const [selected, setSelected] = useState([]);
+  const [response, setResponse] = useState([]);
   const [loading, setLoading] = useState(false);
   const [quality, setQuality] = useState(undefined);
-  const [selected, setSelected] = useState(undefined);
-  const [response, setResponse] = useState(undefined);
-  const [allQuality, setAllQuality] = useState(undefined);
+  const [selectedIdx, setSelectedIdx] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]);
-  const [allResponse, setAllResponse] = useState(undefined);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCompressPage, setIsCompressPage] = useState(false);
-  const [isAllDropdownOpen, setIsAllDropdownOpen] = useState(false);
 
   function clearAll() {
+    setSelected([]);
+    setResponse([]);
+    setSelectedIdx([]);
     setUploadedImages([]);
-    setSelected(undefined);
-    setResponse(undefined);
     setIsCompressPage(false);
-    setAllResponse(undefined);
   }
 
-  function handleSelect(it) {
-    setSelected(it);
-    setResponse(undefined);
+  function handleSelect(it, idx) {
+    if (selectedIdx.includes(idx)) return;
+    setSelectedIdx((prev) => [...prev, idx]);
+    setSelected((prev) => [...prev, it]);
+    setResponse([]);
+  }
+
+  function handleDelete(idx, it) {
+    setSelectedIdx((prev) => prev.filter((item) => item !== idx));
+    setSelected((prev) => prev.filter((item) => item !== it));
+    setResponse([]);
   }
 
   async function compres() {
     setLoading(true);
     const formData = new FormData();
-    formData.append('image', selected);
+    for (const image of selected) {
+      formData.append('image', image);
+    }
     formData.append('quality', quality ? quality : 25);
 
     try {
@@ -46,35 +53,7 @@ export function useApp() {
         },
       });
 
-      setResponse(response.data[0]);
-      setLoading(false);
-      toastSuccess({ title: 'Success', message: 'Berhasil mengompres gambar' });
-    } catch (error) {
-      setLoading(false);
-      toastError({
-        title: 'Sorry',
-        message: 'An error occoured on the server when handling your request',
-      });
-    }
-  }
-
-  async function compresAll() {
-    setLoading(true);
-    const formData = new FormData();
-
-    for (const image of uploadedImages) {
-      formData.append('image', image);
-    }
-    formData.append('quality', allQuality ? allQuality : 25);
-
-    try {
-      const response = await axios.post('http://127.0.0.1:5000/compress', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      setAllResponse(response.data);
+      setResponse(response.data);
       setLoading(false);
       toastSuccess({ title: 'Success', message: 'Berhasil mengompres gambar' });
     } catch (error) {
@@ -95,10 +74,10 @@ export function useApp() {
     }
   }
 
-  function downloadClick() {
-    const nameOfFile = selected.name || 'image.png';
+  function downloadSingleClick(idx, response) {
+    const nameOfFile = selected[idx].name || 'image.png';
 
-    const contentType = selected.type || '';
+    const contentType = selected[idx].type || '';
     const base64Data = response.compressed_image_base64;
     const fileName = `${getFileNameWithoutExtension(nameOfFile)}_compressed.png`;
 
@@ -109,18 +88,11 @@ export function useApp() {
     downloadLink.click();
   }
 
-  function downloadSingleClick(idx, response) {
-    const nameOfFile = uploadedImages[idx].name || 'image.png';
-
-    const contentType = uploadedImages[idx].type || '';
-    const base64Data = response.compressed_image_base64;
-    const fileName = `${getFileNameWithoutExtension(nameOfFile)}_compressed.png`;
-
-    const linkSource = `data:${contentType};base64,${base64Data}`;
-    const downloadLink = document.createElement('a');
-    downloadLink.href = linkSource;
-    downloadLink.download = fileName;
-    downloadLink.click();
+  function downloadAll() {
+    for (let i = 0; i < response.length; i++) {
+      const element = response[i];
+      downloadSingleClick(i, element);
+    }
   }
 
   function filterImg(acceptedFiles) {
@@ -173,15 +145,6 @@ export function useApp() {
     setIsDropdownOpen(false);
   }
 
-  const toggleAllDropdown = () => {
-    setIsAllDropdownOpen((prevState) => !prevState);
-  };
-
-  function selectAllMenu(it) {
-    setAllQuality(it);
-    setIsAllDropdownOpen(false);
-  }
-
   useEffect(() => {
     const isSmall = window.innerWidth < 1025;
     if ((response || selectMenu) && isSmall) {
@@ -202,19 +165,6 @@ export function useApp() {
     };
   }, []);
 
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (allDropdownRef.current && !allDropdownRef.current.contains(event.target)) {
-        setIsAllDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleOutsideClick);
-
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, []);
-
   return {
     datas: {
       loading,
@@ -222,31 +172,26 @@ export function useApp() {
       selected,
       response,
       bottomRef,
-      allQuality,
       dropdownRef,
-      allResponse,
+      selectedIdx,
       getRootProps,
       isDragActive,
       dropdownMenu,
       getInputProps,
-      allDropdownRef,
       isDropdownOpen,
       uploadedImages,
       isCompressPage,
-      isAllDropdownOpen,
     },
     methods: {
       open,
       compres,
       clearAll,
-      compresAll,
       selectMenu,
+      downloadAll,
       removeImage,
       handleSelect,
-      downloadClick,
-      selectAllMenu,
+      handleDelete,
       toggleDropdown,
-      toggleAllDropdown,
       downloadSingleClick,
     },
   };

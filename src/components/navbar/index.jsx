@@ -10,10 +10,7 @@ const Navbar = ({ isCompressPage }) => {
       ) : (
         <div className="w-full flex justify-between items-center">
           <p className="font-semibold text-custom-gray21 text-sm sm:text-[20px]">KOMPRES GAMBAR</p>
-          <div className="flex gap-10 font-medium text-[10px] sm:text-sm items-center">
-            <p className="text-custom-gray21">Upload</p>
-            <p className="text-custom-gray21 underline">Kompres</p>
-          </div>
+          <div className="flex gap-10 font-medium text-[10px] sm:text-sm items-center"></div>
         </div>
       )}
     </div>

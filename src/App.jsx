@@ -13,33 +13,17 @@ const App = () => {
       selected,
       response,
       bottomRef,
-      allQuality,
-      allResponse,
+      selectedIdx,
       dropdownRef,
       getRootProps,
       isDragActive,
       dropdownMenu,
       getInputProps,
-      allDropdownRef,
       isDropdownOpen,
       uploadedImages,
       isCompressPage,
-      isAllDropdownOpen,
     },
-    methods: {
-      open,
-      compres,
-      clearAll,
-      selectMenu,
-      compresAll,
-      removeImage,
-      handleSelect,
-      downloadClick,
-      selectAllMenu,
-      toggleDropdown,
-      toggleAllDropdown,
-      downloadSingleClick,
-    },
+    methods: { open, compres, clearAll, selectMenu, removeImage, handleDelete, handleSelect, toggleDropdown, downloadSingleClick, downloadAll },
   } = useApp();
   return (
     <div
@@ -59,24 +43,19 @@ const App = () => {
             response={response}
             selected={selected}
             clearAll={clearAll}
-            allQuality={allQuality}
-            compresAll={compresAll}
             selectMenu={selectMenu}
-            allResponse={allResponse}
+            selectedIdx={selectedIdx}
             removeImage={removeImage}
+            downloadAll={downloadAll}
             dropdownRef={dropdownRef}
+            handleDelete={handleDelete}
             getRootProps={getRootProps}
             handleSelect={handleSelect}
             dropdownMenu={dropdownMenu}
-            selectAllMenu={selectAllMenu}
             getInputProps={getInputProps}
-            downloadClick={downloadClick}
-            allDropdownRef={allDropdownRef}
             uploadedImages={uploadedImages}
             isDropdownOpen={isDropdownOpen}
             toggleDropdown={toggleDropdown}
-            isAllDropdownOpen={isAllDropdownOpen}
-            toggleAllDropdown={toggleAllDropdown}
             downloadSingleClick={downloadSingleClick}
           />
         )}
