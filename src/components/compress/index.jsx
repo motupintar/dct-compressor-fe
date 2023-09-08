@@ -130,9 +130,13 @@ const Compress = ({
                     </svg>
                   </div>
                 </div>
-                <div className="w-full flex flex-col gap-6 group">
+                <div className="w-full flex flex-col group">
                   <div className="w-full h-[25vh] rounded-lg p-4 flex justify-center">
                     <img className="h-full w-auto rounded-md object-cover" src={URL.createObjectURL(it)} alt={`Selected`} />
+                  </div>
+                  <div className="px-4">
+                    <p className="w-full truncate">{`Nama file : ${it.name}`}</p>
+                    <p className="w-full truncate">{`Ukuran File : ${it.size} bytes`}</p>
                   </div>
                 </div>
               </div>
@@ -194,7 +198,7 @@ const Compress = ({
           </button>
         ) : selected.length > 0 ? (
           <div className="w-full flex flex-col sm:flex-row items-center gap-4">
-            <div ref={dropdownRef} className="relative w-full">
+            {/* <div ref={dropdownRef} className="relative w-full">
               <button
                 onClick={toggleDropdown}
                 className="bg-custom-gray21 hover:bg-custom-btnHover text-custom-grayC4 font-semibold p-4 rounded-md w-full flex items-center justify-between truncate"
@@ -220,7 +224,7 @@ const Compress = ({
                   ))}
                 </div>
               )}
-            </div>
+            </div> */}
             <button
               onClick={compres}
               className="bg-custom-gray21 hover:bg-custom-btnHover text-custom-grayC4 font-semibold p-4 rounded-md w-full text-center"
@@ -233,9 +237,9 @@ const Compress = ({
         )}
 
         {uploadedImages.length < 1 && (
-          <div className="absolute w-full h-screen bg-black bg-opacity-60 top-0 left-0 text-white px-10 flex flex-col items-center justify-center text-center font-medium text-xl gap-6 z-[2]">
+          <div className="fixed lg:absolute w-full h-screen bg-black bg-opacity-60 top-0 left-0 text-white px-10 flex flex-col items-center justify-center text-center font-medium text-xl gap-6 z-[2]">
             <p>Tidak ada gambar yang di upload</p>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-20 h-20">
+            <svg onClick={clearAll} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-20 h-20 cursor-pointer">
               <path
                 fillRule="evenodd"
                 d="M9.53 2.47a.75.75 0 010 1.06L4.81 8.25H15a6.75 6.75 0 010 13.5h-3a.75.75 0 010-1.5h3a5.25 5.25 0 100-10.5H4.81l4.72 4.72a.75.75 0 11-1.06 1.06l-6-6a.75.75 0 010-1.06l6-6a.75.75 0 011.06 0z"

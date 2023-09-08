@@ -44,7 +44,7 @@ export function useApp() {
     for (const image of selected) {
       formData.append('image', image);
     }
-    formData.append('quality', quality ? quality : 25);
+    formData.append('quality', 50);
 
     try {
       const response = await axios.post('http://127.0.0.1:5000/compress', formData, {
@@ -119,11 +119,11 @@ export function useApp() {
   }, []);
 
   const removeImage = (index) => {
-    setUploadedImages((prevUploadedImages) => prevUploadedImages.filter((_, i) => i !== index));
-    if (selected === uploadedImages[index]) {
-      setSelected(undefined);
-      setResponse(undefined);
+    if (selected.includes(uploadedImages[index])) {
+      setSelected([]);
+      setResponse([]);
     }
+    setUploadedImages((prevUploadedImages) => prevUploadedImages.filter((_, i) => i !== index));
   };
 
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({

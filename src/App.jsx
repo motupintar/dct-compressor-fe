@@ -67,7 +67,7 @@ const App = () => {
       )}
       {!isCompressPage && (
         <div ref={bottomRef} className="absolute left-10 bottom-10">
-          <p className="text-sm text-custom-gray6C">© Tri Boy Girsang • 2023</p>
+          <p className="text-sm text-custom-gray6C">© Kyyboy • 2023</p>
         </div>
       )}
     </div>
