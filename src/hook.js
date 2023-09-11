@@ -44,7 +44,7 @@ export function useApp() {
     for (const image of selected) {
       formData.append('image', image);
     }
-    formData.append('quality', 50);
+    formData.append('quality', 75);
 
     try {
       const response = await axios.post('http://127.0.0.1:5000/compress', formData, {

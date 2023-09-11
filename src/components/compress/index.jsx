@@ -152,7 +152,7 @@ const Compress = ({
               {response.map((it, idx) => (
                 <div key={idx} className="w-full group bg-custom-grayEC rounded-lg overflow-hidden py-2">
                   <div className="flex w-full justify-end opacity-0 group-hover:opacity-100 px-2">
-                    <div id="dld_btn" onClick={() => downloadSingleClick(idx, response)} className="text-blue-800 cursor-pointer">
+                    <div id="dld_btn" onClick={() => downloadSingleClick(idx, it)} className="text-blue-800 cursor-pointer">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
